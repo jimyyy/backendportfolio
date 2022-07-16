@@ -3,16 +3,21 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
 const { env } = require('process');
-
+const cors = require('cors');
 const Contact = require('./Models/Contact');
 const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(cors({
+    origin: '*'
+
+}));
+
 dotenv.config();
 
-mongoose.connect('mongodb://localhost:27017/portfolio', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -26,6 +31,8 @@ app.use((req, res, next) => {
     );
     next();
 });
+
+
 const port = process.env.PORT || 3000
 
 
