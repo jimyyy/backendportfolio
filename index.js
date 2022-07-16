@@ -28,13 +28,32 @@ app.use((req, res, next) => {
 });
 const port = process.env.PORT || 3000
 
-app.get('/',(req,res)=>{
-    res.send("aziz ajmi")
-})
 
-app.listen(port,()=>{
+
+app.listen(port, () => {
     console.log(`app listening to port ${port}`);
 })
+
+app.post("/api/addcontact", (req, res) => {
+    console.log("here in create contact", req.body);
+    let contact = {};
+
+    contact = new Contact({
+        name: req.body.name,
+        email: req.body.email,
+        subject: req.body.subject,
+        message: req.body.message,
+    });
+
+
+    contact.save();
+
+    res.status(200).json({
+        message: "contact created"
+
+    })
+
+});
 
 
 
